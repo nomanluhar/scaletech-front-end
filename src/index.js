@@ -1,30 +1,39 @@
 const express = require('express');
-const { PORT, CLIENT_URL } = require('./constansts');
 const app = express();
-const bodyParser = require('body-parser');
+const { PORT, CLIENT_URL } = require('./constansts');
 const cookieParser = require('cookie-parser');
 const passport = require('passport');
 const cors = require('cors');
+const bodyParser = require('body-parser');
 
-app.use(bodyParser.urlencoded({ extended: false }))
-app.use(bodyParser.json());
-app.use(cookieParser());
-app.use(cors({ origin: CLIENT_URL, credentials: true }));
-app.use(passport.initialize());
-// require('../../')
+//import passport middleware
+require('./middlewares/passport-middleware')
+// app.use(function(req, res, next) {
+//     res.header('Access-Control-Allow-Origin', req.header('origin') );
+//     next();
+//   });
+app.use(cors({ credentials: true, origin: true, }))
+app.use(cors({ origin: CLIENT_URL, optionsSuccessStatus: 200 }));
+//initialize middlewares
+app.use(express.json())
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(cookieParser())
+// app.options("*", cors({ origin: 'http://localhost:3000', optionsSuccessStatus: 200 }));
+
+app.use(passport.initialize())
+
 //import routes
 const authRoutes = require('./routes/auth');
 
-//initialize
+//initialize routes
 app.use('/api', authRoutes);
-const appStart = () => {
-    try {
-        app.listen(PORT, () => {
-            console.log(`The app is running at http://localhost:${PORT}`);
-        })
-    } catch (error) {
-        console.log(`Error : ${error.message}`);
-    };
-};
 
-appStart();
+//app start
+app.listen(PORT, () => {
+    try {
+        console.log(`The app is running at http://localhost:${PORT}`);
+
+    } catch (error) {
+        console.log(error.message);
+    };
+});

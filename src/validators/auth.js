@@ -10,11 +10,9 @@ const email = check('user_email').isEmail().withMessage('Please provide a valid 
 
 //check if email exists
 const emailExists = check('user_email').custom(async (value) => {
-
     const { rows } = await db.query('SELECT * from users WHERE user_email = $1', [
         value,
     ]);
-
     if (rows.length) {
         throw new Error('Email already exists.');
     };
@@ -26,7 +24,6 @@ const loginFieldsCheck = check('user_email').custom(async (value, { req }) => {
     if (!user.rows.length) {
         throw new Error('Email does not exists.');
     };
-
     const validPassword = await compare(req.body.user_password, user.rows[0].user_password);
     if (!validPassword) {
         throw new Error('Wrong password');

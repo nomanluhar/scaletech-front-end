@@ -20,7 +20,6 @@ exports.register = async (req, res) => {
     const { user_name, user_email, user_password } = req.body
     try {
         const hashedPassword = await hash(user_password, 10);
-
         await db.query('insert into users(user_name,user_email,user_password) values ($1 , $2 , $3)', [user_name, user_email, hashedPassword]);
 
         return res.status(201).json({
@@ -71,6 +70,17 @@ exports.logout = async (req, res) => {
             success: true,
             message: 'Logged out successfully',
         })
+    } catch (error) {
+        console.log(error.message);
+        return res.status(500).json({
+            error: error.message
+        })
+    };
+};
+
+exports.allContacts = async (req, res) => {
+    try {
+
     } catch (error) {
         console.log(error.message);
         return res.status(500).json({
