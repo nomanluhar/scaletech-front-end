@@ -34,3 +34,8 @@ CREATE TABLE contact(
 insert into users(user_name,user_email,user_password) values ('John' , 'john@example.in' , '123456789')
 
 INSERT INTO contact(contact_name, contact_email, contact_phone,user_id) VALUES (123, '1@example.in','123' ,(SELECT user_id FROM users WHERE user_id = 1));
+
+UPDATE contact 
+   SET contact_name = 123456, 
+       contact_email = 'NY' 
+WHERE contact_id = 5;
