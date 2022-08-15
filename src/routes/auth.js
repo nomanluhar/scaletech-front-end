@@ -19,8 +19,8 @@ router.get('/userEmailVarification', userEmailAuth);
 router.get('/logout', logout);
 
 //contact API
-router.post('/allContact', getContacts);
+router.post('/allContact',getContacts);
 router.post('/addContact', addContact);
 router.post('/editContact', editContact);
-router.delete('/removeContact', removeContact);
+router.post('/removeContact', removeContact);
 module.exports = router 
